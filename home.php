@@ -1,3 +1,16 @@
+<?php
+    session_start();
+    if(!isset($_SESSION['simple_login'])){
+        header("Location: home.php");
+        exit();
+    }
+     
+/*** you can  write your protected content here ***/
+ 
+?>
+<h1 align="center">Welcome, <?php echo $_SESSION['simple_login']; ?></h1>
+<p align="center"><a href="logout.php">Logout</a></p>
+
 <!--
 Author: W3layouts
 Author URL: http://w3layouts.com
@@ -91,7 +104,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		                <!-- //Dropdown -->
 
 		                <li><a href="#contact" class="scroll">Kontak</a></li>
-		                <li><a href="indexlogin.php">Masuk</a></li>
+		                <li><a href="indexlogout.php">Keluar</a></li>
+
 				
 	                </ul>
 	            </div>
