@@ -6,7 +6,7 @@
 $databaseHost = 'localhost';
 $databaseName = 'id4896285_crud_web';
 $databaseUsername = 'id4896285_bagushndk';
-$databasePassword = 'dokoridoko';
+$databasePassword = '12345';
  
 $mysqli = mysqli_connect($databaseHost, $databaseUsername, $databasePassword, $databaseName); 
  

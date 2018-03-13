@@ -14,6 +14,6 @@
 		$result = mysqli_query($mysqli, "INSERT INTO users(name,email,telepon, message) VALUES('$name','$email','$telepon','$message')");
 		
 		// Show message when user added
-		echo "User added successfully. <a href='indexcrud.php'>View Users</a>";
+		echo "User berhasil ditambahkan. <a href='index.php'>Kembali ke Home</a>";
 	}
 	?>
