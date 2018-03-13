@@ -4,15 +4,15 @@
  
         /*** You can change username & password ***/
         $user = array(
-                        "user" => "demo",
-                        "pass"=>"demo"          
+                        "user" => "admin",
+                        "pass"=>"123"          
                 );
         $username = $_POST['username'];
         $pass = $_POST['password'];
         if($username == $user['user'] && $pass == $user['pass']){
             session_start();
             $_SESSION['simple_login'] = $username;
-            header("Location: home.php");
+            header("Location: indexcrud.php");
             exit();
         }else{
             $error = '<div class="alert alert-danger">Invalid Login</div>';

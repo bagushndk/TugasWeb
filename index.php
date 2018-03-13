@@ -8,7 +8,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!DOCTYPE html>
 <html>
 <head>
-<title>Departemen Teknologi Informasi - ITS</title>
+<title>Home|Departemen Teknologi Informasi - ITS</title>
 
 <!-- For-Mobile-Apps -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -90,8 +90,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 		                <!-- //Dropdown -->
 
-		                <li><a href="#contact" class="scroll">Kontak</a></li>
-		                <li><a href="indexlogin.php">Masuk</a></li>
+		                <li><a href="#contact" class="scroll">Hubungi</a></li>
+		               
 				
 	                </ul>
 	            </div>
@@ -314,27 +314,34 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			
 			<!-- Contact-Starts-Here -->
         	<div class="contact slideanim" id="contact">
-        		<h3>Kontak</h3>
+        		<h3>Hubungi</h3>
         		
-        		<form class="contact_form">
-        			<form action="send_mail.php" method="post">
+        			<form action="add.php" method="post"  class="contact_form">
 
-        			<div class="message">
-						<div class="col-md-6 col-sm-6 grid_6 c1">
-							<input type="text" class="text" value="Name" placeholder="Nama" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Nama';}">
-							<input type="text" class="text" value="Email" placeholder="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
-							<input type="text" class="text" value="Phone" placeholder="Telepon" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Telepon';}">
-						</div>
-				
-						<div class="col-md-6 col-sm-6 grid_6 c1">
-							<textarea placeholder="Pesan" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Pesan';}">Message</textarea>
-						</div>
-			            <div class="clearfix"> </div>
-		        	</div>
+        			 <div>
+                          <label for="name">Nama</label>
+                          <input type="text" name="name">
+                         </div>
 
-					<input type="submit" class="more_btn" value="Kirim">
-			 	</form>					
+                         <div>
+                          <label for="email">Email</label>
+                          <input type="text" name="email">
+                         </div>
+
+                         <div>
+                          <label for="telepon">Telepon</label>
+                          <input type="text" name="telepon">
+                         </div>
+
+                         <div>
+                          <label for="message">Pesan</label>
+                          <textarea name="message" id="" cols="30" rows="10"></textarea>
+                         </div>
+
+                         <div><input type="submit" class="more_btn" value="Kirim" name="submit"></div>
+			
 			 	</form>
+			 	
         	</div>
 			<!-- //Contact-Ends-Here -->
 
@@ -359,18 +366,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	                    	<li>Indonesia</li>
 	                    	<li>Phone : +62 31 5999955</li>
 	                    	<li>Fax: +62 31 5964966</li>
-	                    	<li>Email : <a class="mail" href="teknologi.informasi@its.ac.id">info(at)sseet.com</a></li>
+	                    	<li>Email : <a class="mail" >teknologi.informasi@its.ac.id</a></li>
 	                    </ul>
 	               </address>
 				</div>
 				<div class="col-md-2 col-sm-2 f3" id="qlinks">
 	    		    <h3>Links</h3>
 	    			<ul class="footer_list">
-	    				<li><a href="#about" class="scroll">About</a></li>
-	    				<li><a href="#programs" class="scroll">Programs</a></li>
-	    				<li><a href="#services" class="scroll">Services</a></li>
-	    				<li><a href="#edifice" class="scroll">Edifice</a></li>
-	    				<li><a href="#project" class="scroll">Projects</a></li>
+	    				<li><a href="#about" class="scroll">Profil</a></li>
+	    				<li><a href="#foreword" class="scroll">Mengapa</a></li>
+	    				<li><a href="#contact" class="scroll">Hubungi</a></li>
+	    				<li><a href=indexlogin.php class="click">Masuk</a></li>
 	    			</ul>
 	    		</div>
 	    		<div class="clearfix"></div>
