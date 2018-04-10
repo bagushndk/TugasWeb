@@ -1,451 +1,315 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
+<?php
+/**
+ * CodeIgniter
+ *
+ * An open source application development framework for PHP
+ *
+ * This content is released under the MIT License (MIT)
+ *
+ * Copyright (c) 2014 - 2018, British Columbia Institute of Technology
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license	http://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 1.0.0
+ * @filesource
+ */
 
-<!DOCTYPE html>
-<html>
-<head>
-<title>Home|Departemen Teknologi Informasi - ITS</title>
+/*
+ *---------------------------------------------------------------
+ * APPLICATION ENVIRONMENT
+ *---------------------------------------------------------------
+ *
+ * You can load different configurations depending on your
+ * current environment. Setting the environment also influences
+ * things like logging and error reporting.
+ *
+ * This can be set to anything, but default usage is:
+ *
+ *     development
+ *     testing
+ *     production
+ *
+ * NOTE: If you change these, also change the error_reporting() code below
+ */
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
-<!-- For-Mobile-Apps -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="Exchange Education a Responsive Web Template, Bootstrap Web Templates, Flat Web Templates, Android Compatible Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design" />
-    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- //For-Mobile-Apps -->
+/*
+ *---------------------------------------------------------------
+ * ERROR REPORTING
+ *---------------------------------------------------------------
+ *
+ * Different environments will require different levels of error reporting.
+ * By default development will show errors but testing and live will hide them.
+ */
+switch (ENVIRONMENT)
+{
+	case 'development':
+		error_reporting(-1);
+		ini_set('display_errors', 1);
+	break;
 
-<!-- Custom Theme files -->
-    <!-- Bootstrap Styling --> <link rel='stylesheet' href="css/bootstrap.css" type='text/css' />
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> <script src="js/jquery.min.js"></script>
-    <!-- Bootstrap-Working-File --> <script src="js/bootstrap.min.js"></script>
-    <!-- Index-Page-Styling --> <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />   
-	<!-- Owl-Carousel-Styling --> <link rel="stylesheet" href="css/owl.carousel.css" type="text/css" media="all">
-<!-- //Custom Theme files -->
+	case 'testing':
+	case 'production':
+		ini_set('display_errors', 0);
+		if (version_compare(PHP_VERSION, '5.3', '>='))
+		{
+			error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
+		}
+		else
+		{
+			error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
+		}
+	break;
 
-<!-- Smooth-Scrolling -->
-<script type="text/javascript" src="js/move-top.js"></script>
-<script type="text/javascript" src="js/easing.js"></script>
-<script type="text/javascript">
-    jQuery(document).ready(function($) {
-        $(".scroll").click(function(event){     
-            event.preventDefault();
-            $('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
-        });
-    });
-</script>
-<!-- //Smooth-Scrolling -->
+	default:
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		echo 'The application environment is not set correctly.';
+		exit(1); // EXIT_ERROR
+}
 
-<!-- Calender-JavaScript -->
-	<link rel="stylesheet" href="css/clndr.css" type="text/css" />
-	<script src="js/underscore-min.js" type="text/javascript"></script>
-	<script src= "js/moment-2.2.1.js" type="text/javascript"></script>
-	<script src="js/clndr.js" type="text/javascript"></script>
-	<script src="js/site.js" type="text/javascript"></script>
-<!-- //Calender-JavaScript -->
+/*
+ *---------------------------------------------------------------
+ * SYSTEM DIRECTORY NAME
+ *---------------------------------------------------------------
+ *
+ * This variable must contain the name of your "system" directory.
+ * Set the path if it is not in the same directory as this file.
+ */
+	$system_path = 'system';
 
-</head>
+/*
+ *---------------------------------------------------------------
+ * APPLICATION DIRECTORY NAME
+ *---------------------------------------------------------------
+ *
+ * If you want this front controller to use a different "application"
+ * directory than the default one you can set its name here. The directory
+ * can also be renamed or relocated anywhere on your server. If you do,
+ * use an absolute (full) server path.
+ * For more info please see the user guide:
+ *
+ * https://codeigniter.com/user_guide/general/managing_apps.html
+ *
+ * NO TRAILING SLASH!
+ */
+	$application_folder = 'application';
 
-<!-- Body-Starts-Here -->
-<body>
+/*
+ *---------------------------------------------------------------
+ * VIEW DIRECTORY NAME
+ *---------------------------------------------------------------
+ *
+ * If you want to move the view directory out of the application
+ * directory, set the path to it here. The directory can be renamed
+ * and relocated anywhere on your server. If blank, it will default
+ * to the standard location inside your application directory.
+ * If you do move this, use an absolute (full) server path.
+ *
+ * NO TRAILING SLASH!
+ */
+	$view_folder = '';
 
-	<!-- Header-Starts-Here -->
-	<div class="header">
 
-		<!-- Navbar-Starts-Here -->
-	    <nav class="navbar navbar-inverse">
-	        <div class="container">
-	            <div class="navbar-header">
-	                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-	                    <span class="sr-only">Toggle navigation</span>
-	                    <span class="icon-bar"></span>
-	                    <span class="icon-bar"></span>
-	                    <span class="icon-bar"></span>
-	                </button>
+/*
+ * --------------------------------------------------------------------
+ * DEFAULT CONTROLLER
+ * --------------------------------------------------------------------
+ *
+ * Normally you will set your default controller in the routes.php file.
+ * You can, however, force a custom routing by hard-coding a
+ * specific controller class/function here. For most applications, you
+ * WILL NOT set your routing here, but it's an option for those
+ * special instances where you might want to override the standard
+ * routing in a specific front controller that shares a common CI installation.
+ *
+ * IMPORTANT: If you set the routing here, NO OTHER controller will be
+ * callable. In essence, this preference limits your application to ONE
+ * specific controller. Leave the function name blank if you need
+ * to call functions dynamically via the URI.
+ *
+ * Un-comment the $routing array below to use this feature
+ */
+	// The directory name, relative to the "controllers" directory.  Leave blank
+	// if your controller is not in a sub-directory within the "controllers" one
+	// $routing['directory'] = '';
 
-	                <!-- Logo --><a class="navbar-brand" href="#">teknologi informasi</a><!-- //Logo -->
+	// The controller class file name.  Example:  mycontroller
+	// $routing['controller'] = '';
 
-	            </div>
-	            
-	            <!-- Navbar-Collapse -->
-	            <div id="navbar" class="navbar-collapse collapse">
+	// The controller function you wish to be called.
+	// $routing['function']	= '';
 
-	                <ul class="nav navbar-nav navbar-right">
 
-		                <li><a href="#about" class="scroll">Profil</a></li>
-		                <li><a href="#foreword" class="scroll">Mengapa</a></li>
-
-		                <!-- Dropdown -->
-		                <li role="presentation" class="dropdown carat1">
-			                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Selengkapnya<span class="caret"></span> </a>
-				                <ul class="dropdown-menu dropdown1">					 <li><a href="#programs" class="scroll">Fasilitas</a></li>
-					                <li><a href="#admissions" class="scroll">Seleksi</a></li>
-					                <li><a href="#services" class="scroll">Profil Lulusan</a></li>
-					                <li><a href="#faculty" class="scroll">Kata</a></li>
-					                
-				                </ul>
-		                </li>
-
-		                <!-- //Dropdown -->
-
-		                <li><a href="#contact" class="scroll">Hubungi</a></li>
-		               
-				
-	                </ul>
-	            </div>
-	            <!-- //Navbar-Collapse -->
-
-	        </div>
-	    </nav>
-	    <!-- //Navbar-Ends-Here -->
-
-		<!-- Carousel-Starts-Here -->
-		<div id="myCarousel" class="carousel slide" data-ride="carousel">
-
-			<ol class="carousel-indicators">
-				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-				<li data-target="#myCarousel" data-slide-to="1"></li>
-				<li data-target="#myCarousel" data-slide-to="2"></li>
-				
-			</ol>
-
-			<div class="carousel-inner" role="listbox">
-				<div class="item active">
-					<img class="first-slide" src="images/grahaa.jpg" alt="First Slide">
-				</div>
-
-				<div class="item">
-					<img class="second-slide" src="images/1.jpg" alt="Second Slide">
-				</div>
-
-				<div class="item">
-					<img class="second-slide" src="images/2.jpg" alt="Second Slide">
-				</div>
-
-				
-
-				<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-					<span class="sr-only">Previous</span>
-				</a>
-
-				<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-					<span class="sr-only">Next</span>
-				</a>
-			</div>
-		</div>
-		<!-- //Carousel-Ends-Here -->
-
-	</div>
-	<!-- Header-Ends-Here -->
-
-    <!-- Content-Starts-Here -->
-    <div class="content">
-    	
-    	<!-- Heading -->
-    	<h1 >
-    		Departemen Teknologi Informasi<br>
-    	</h1>
-    	<h2>
-    		Fakultas Teknologi Informasi dan Komunikasi - ITS<br>
-    	</h2>
-    	<!-- //Heading -->
-
-    	<div class="container">
-    		
-    		<!-- About-Starts-Here -->
-    		<div class="about slideanim" id="about">
-	            <h2>Profil</h2>
-	            <p>Departemen Teknologi Informasi hadir untuk mendukung dua dari lima bidang unggulan ITS yaitu ICT dan robotika , serta pemukiman.  Departemen ini memberikan kontribusi dalam pengembangan ilmu pengetahuan dan teknologi untuk kesejahteraan masyarakat melalui kegiatan pendidikan, penelitian, pengabdian kepada masyarakat, dan manajemen berbasis Teknologi Informasi.</p>
-
-                <div class="about-info slideanim">
-                    <div class="col-md-6 col-sm-6" id="about-pic">
-                        <img src="images/9.jpg" alt="About">                   
-                    </div>
-                    <div class="col-md-6 col-sm-6" id="about-p">
-                    <h2>Visi</h2>
-                        <span>Menjadi Program Studi Teknologi Informasi yang unggul dalam bidang keamanan siber dan Teknologi berbasis Internet (Internet of Things) untuk mendukung pembangunan Smart City secara berkelanjutan hingga tahun 2022</span>
-                    <h2>Misi</h2>
-                        <ol>
-                        <li>Menyelenggarakan pendidikan dan pengajaran Teknologi Informasi dengan menggunakan kurikulum yang adaptif, berorientasi ke masa depan dan didukung SDM yang berkualitas serta fasilitas yang memadai. </li>
-						<li>Melaksanakan penelitian yang bermutu di bidang Keamanan Siber dan Internet of Things untuk teknologi Smart City. </li>
-						<li>Menjalin kemitraan dengan instansi dalam maupun luar negeri.</li>
-						<li>Menyelenggarakan pengabdian kepada masyarakat berupa pelatihan, penyuluhan, penerapan hasil penelitian untuk pengembangan potensi dan pemberdayaan masyarakat daerah</li>
-						</ol>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-    		</div>
-    		<!-- //About-Ends-Here -->
-
-    		<!-- Foreword-Starts-Here -->
-    		<div class="foreword slideanim" id="foreword">
-    			<h2>Mengapa Teknologi Informasi?</h2>
-    			<ol>
-                        <li>Saat ini banyak terdapat hacker di dunia siber, oleh karena itu diperlukan ahli keamanan siber dan aplikasi untuk mengurangi penipuan (fraud).</li>
-						<li>Program Studi Teknologi Informasi dapat mencetak lulusan yang mempunyai keahlian di bidang layanan awan, yang berkontribusi dalam meningkatkan kuantitas dan kualitas SDM, sehingga dapat meningkatkan efisiensi operasional organisasi. </li>
-						<li>Memiliki kemampuan untuk menghasilkan SDM yang ahli dalam bidang integrasi sistem sebagai solusi untuk mendukung penanganan aplikasi-aplikasi di instansi pemerintahan (E-Gov).</li>
-						<li>Memfasilitasi otomatisasi proses bisnis di organisasi untuk menghadapi perkembangan teknologi internet yang pesat dalam rangka mendukung pengembangan Teknologi Smart City.</li>
-						</ol>
-                
-    		</div>
-    		<!-- //Foreword-Ends-Here -->
-
-			<!-- Programs-Starts-Here -->
-            <div class="programs slideanim" id="programs">
-	            <h3>FASILITAS</h3>
-	            <p>Departemen Teknologi Informasi memiliki beberapa fasilitas guna menunjang pembelajaran.</p>
-
-	            <div class="program-grid">
-		            <div class="col-md-4 col-md-4 p1">
-		                <div class="program1">
-		                    <h4>Laboratorium</h4>
-		                    <p>Terdapat 2 laboratorium komputer (Lab Keamanan Siber dan Lab Teknologi Smart City). Seluruh Komputer telah dilengkapi oleh perangkat lunak yang dapat digunakan untuk mendukung kegiatan praktikum maupun kegiatan akademis lainnya.</p>
-		                </div>
-		            </div>
-		            <div class="col-md-4 col-md-4 p1">
-		                <div class="program2">
-		                    <h4>Ruang Baca</h4>
-		                    <p>Memiliki berbagai macam koleksi mulai dari fiksi hingga materi perkuliahan, dari bahan cetak hingga koleksi digital seperti CD-ROM, CD, VCD dan DVD. Selain itu juga menyediakan publikasi serial harian dan bulanan seperti surat kabar dan majalah.</p>
-		                </div>
-		            </div>
-		            <div class="col-md-4 col-md-4 p1">
-		                <div class="program3">
-		                    <h4>Ruang Kelas</h4>
-		                    <p>Setiap ruang kelas dilengkapi dengan pendingin ruangan dan LCD serta akses internet gratis yang dapat mendukung kegiatan akademis mahasiswa.</p>
-		                </div>
-		            </div>
-		            <div class="clearfix"></div>
-	            </div>
-        	</div>
-			<!-- //Programs-Ends-Here -->
-
-			
-        	<div class="admissions slideanim" id="admissions">
-                <h3>SELEKSI MASUK</h3>
-                <H4>Tahun akademik 2018/2019</H4>
-                <ul>
-                	<li>SNMPTN. <a href="https://smits.its.ac.id/sarjana/#snmptn" target="_blank">Selengkapnya </a></li>
-                	<li>SBMPTN. <a href="https://smits.its.ac.id/sarjana/#sbmptn" target="_blank">Selengkapnya </a></li>
-                	<li>PKM. <a href="https://smits.its.ac.id/sarjana/#pkm" target="_blank">Selengkapnya </a></li>
-                </ul>
-            </div>
-			
-
-			
-
-			
-			<!-- Services-Starts-Here -->
-            <div class="services slideanim" id="services">
-                <h3>PROFIL LULUSAN</h3>
-                
-                <div class="col-md-6 col-sm-6 s1">
-                    <div class="services-info1">
-                        <h4>Spesialis Keamanan Siber</h4>
-                        <p><i>Cyber Security Specialist</i></p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-sm-6 s1">
-                    <div class="services-info2">
-                       <h4>Spesialis Internet of Things</h4>
-                        <p><i>IoT Specialist</i></p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-sm-6 s1">
-                    <div class="services-info3">
-                        <h4>Analisis Keamanan Aplikasi</h4>
-                        <p><i>Application Security Analyst</i></p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-sm-6 s1">
-                    <div class="services-info4">
-                       <h4>Pengembang Layanan Awan</h4>
-                        <p><i>Cloud Service Developer</i></p>
-                    </div>
-                </div>
-                 <div class="col-md-6 col-sm-6 s1">
-                    <div class="services-info5">
-                        <h4>Spesialis Integrasi Sistem</h4>
-                        <p><i>System Integration Specialist</i></p>
-                    </div>
-                </div>
-		        <div class="clearfix"></div>
-            </div>
-			<!-- //Services-Ends-Here -->
-
-			<!-- Faculty-Starts-Here -->
-            <div class="faculty slideanim" id="faculty">
-	            <h3>Apa kata mereka?</h3>
-	            <div class="col-md-3 col-sm-3 team-top">
-						<div class="view view-seventh">
-							<a href="#"><img class="img-responsive" src="images/f1.jpg" alt="Wiranto"></a>
-			                    <h6>Wiranto - Menko Polhukam</h6>
-			                    <p>"Kegiatan siber nasional terutama pengamanan siber ini merupakan keharusan, keniscayaan."</p>
-                   		</div>
-					</div>
-					<div class="col-md-3 col-sm-3 team-top team-in">
-						<div class="view view-seventh">
-							<a href="#"><img class="img-responsive" src="images/f2.jpg" alt="John McCarthy"></a>
-			                    <h6>John McCarthy - Pakar Komputasi MIT</h6>
-			                    <p>"Suatu hari nanti komputasi akan menjadi infrastruktur publik seperti listrik dan telepon."</p>
-                   		 </div>
-					</div>
-					<div class="col-md-3 col-sm-3 team-top">
-						<div class="view view-seventh">
-							<a href="#"><img class="img-responsive" src="images/f3.jpg" alt="Rudiantara"></a>
-			                    <h6>Rudiantara   -   Menkominfo</h6>
-			                    <p>"Smart City menciptakan perubahan sistem lebih efektif dan efisien dalam lembaga pemerintah."</p>
-                   		</div>
-					</div>
-					<div class="col-md-3 col-sm-3 team-top top-team">
-						<div class="view view-seventh">
-							<a href="#"><img class="img-responsive" src="images/f4.jpg" alt="Bill Gates"></a>
-			                    <h6>Bill Gates -  Microsoft</h6>
-			                    <p>"Jika kita tidak memecahkan masalah keamanan maka orang-orang akan ragu."</p>
-			            </div>
-					</div>
-					<div class="clearfix"> </div>
-	        </div>
-			<!-- //Faculty-Ends-Here -->
-
-			
-			<!-- Contact-Starts-Here -->
-        	<div class="contact slideanim" id="contact">
-        		<h3>Hubungi</h3>
-        		
-        			<form action="add.php" method="post"  class="contact_form">
-
-        			 <div>
-                          <label for="name">Nama</label>
-                          <input type="text" name="name">
-                         </div>
-
-                         <div>
-                          <label for="email">Email</label>
-                          <input type="text" name="email">
-                         </div>
-
-                         <div>
-                          <label for="telepon">Telepon</label>
-                          <input type="text" name="telepon">
-                         </div>
-
-                         <div>
-                          <label for="message">Pesan</label>
-                          <textarea name="message" id="" cols="30" rows="10"></textarea>
-                         </div>
-
-                         <div><input type="submit" class="more_btn" value="Kirim" name="submit"></div>
-			
-			 	</form>
-			 	
-        	</div>
-			<!-- //Contact-Ends-Here -->
-
-    	</div>
-
-    </div>
-    <!-- Content-Ends-Here -->
-
-    <!-- Footer-Starts-Here -->
-    <div class="footer slideanim">
-
-    	<div class="container">
-
-	    	<div class="footer-info slideanim">
-				<div class="col-md-4 col-sm-4 f2">
-					<h3 class="address">Alamat</h3>
-	    			<address>
-	                    <ul>
-	                    	<li>Sekretariat</li>
-	                    	<li>Departemen Teknologi Informasi</li>
-	                    	<li>Kampus ITS, Surabaya 60111</li>
-	                    	<li>Indonesia</li>
-	                    	<li>Phone : +62 31 5999955</li>
-	                    	<li>Fax: +62 31 5964966</li>
-	                    	<li>Email : <a class="mail" >teknologi.informasi@its.ac.id</a></li>
-	                    </ul>
-	               </address>
-				</div>
-				<div class="col-md-2 col-sm-2 f3" id="qlinks">
-	    		    <h3>Links</h3>
-	    			<ul class="footer_list">
-	    				<li><a href="#about" class="scroll">Profil</a></li>
-	    				<li><a href="#foreword" class="scroll">Mengapa</a></li>
-	    				<li><a href="#contact" class="scroll">Hubungi</a></li>
-	    				<li><a href=indexlogin.php class="click">Masuk</a></li>
-	    			</ul>
-	    		</div>
-	    		<div class="clearfix"></div>
-			</div>
+/*
+ * -------------------------------------------------------------------
+ *  CUSTOM CONFIG VALUES
+ * -------------------------------------------------------------------
+ *
+ * The $assign_to_config array below will be passed dynamically to the
+ * config class when initialized. This allows you to set custom config
+ * items or override any default config values found in the config.php file.
+ * This can be handy as it permits you to share one application between
+ * multiple front controller files, with each file containing different
+ * config values.
+ *
+ * Un-comment the $assign_to_config array below to use this feature
+ */
+	// $assign_to_config['name_of_config_item'] = 'value of config item';
 
 
 
-	        <div class="copyright">
-	            <p>&copy; 2016 Exchange Education. All Rights Reserved | Design by <a href="http://w3layouts.com/"> W3layouts </a></p>
-	        </div>
+// --------------------------------------------------------------------
+// END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
+// --------------------------------------------------------------------
 
-        </div>
+/*
+ * ---------------------------------------------------------------
+ *  Resolve the system path for increased reliability
+ * ---------------------------------------------------------------
+ */
 
-        <!-- Slide-To-Top JavaScript (No-Need-To-Change) -->
-        <script type="text/javascript">
-            $(document).ready(function() {
-                /*
-                var defaults = {
-                    containerID: 'toTop', // fading element id
-                    containerHoverID: 'toTopHover', // fading element hover id
-                    scrollSpeed: 1200,
-                    easingType: 'linear' 
-                };
-                */            
-                $().UItoTop({ easingType: 'easeOutQuart' });            
-            });
-        </script>
-        <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
-        <!-- //Slide-To-Top JavaScript -->
+	// Set the current directory correctly for CLI requests
+	if (defined('STDIN'))
+	{
+		chdir(dirname(__FILE__));
+	}
 
-    </div>
-    <!-- //Footer-Ends-Here -->
+	if (($_temp = realpath($system_path)) !== FALSE)
+	{
+		$system_path = $_temp.DIRECTORY_SEPARATOR;
+	}
+	else
+	{
+		// Ensure there's a trailing slash
+		$system_path = strtr(
+			rtrim($system_path, '/\\'),
+			'/\\',
+			DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+		).DIRECTORY_SEPARATOR;
+	}
 
-    <script>
-$(document).ready(function(){
-  // Add smooth scrolling to all links in navbar + footer link
-  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+	// Is the system path correct?
+	if ( ! is_dir($system_path))
+	{
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		echo 'Your system folder path does not appear to be set correctly. Please open the following file and correct this: '.pathinfo(__FILE__, PATHINFO_BASENAME);
+		exit(3); // EXIT_CONFIG
+	}
 
-    // Prevent default anchor click behavior
-    event.preventDefault();
+/*
+ * -------------------------------------------------------------------
+ *  Now that we know the path, set the main path constants
+ * -------------------------------------------------------------------
+ */
+	// The name of THIS file
+	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
-    // Store hash
-    var hash = this.hash;
+	// Path to the system directory
+	define('BASEPATH', $system_path);
 
-    // Using jQuery's animate() method to add smooth page scroll
-    // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
-    $('html, body').animate({
-      scrollTop: $(hash).offset().top
-    }, 900, function(){
-   
-      // Add hash (#) to URL when done scrolling (default click behavior)
-      window.location.hash = hash;
-    });
-  });
-  
-  $(window).scroll(function() {
-    $(".slideanim").each(function(){
-      var pos = $(this).offset().top;
+	// Path to the front controller (this file) directory
+	define('FCPATH', dirname(__FILE__).DIRECTORY_SEPARATOR);
 
-      var winTop = $(window).scrollTop();
-        if (pos < winTop + 600) {
-          $(this).addClass("slide");
-        }
-    });
-  });
-})
-</script>
+	// Name of the "system" directory
+	define('SYSDIR', basename(BASEPATH));
 
-</body>
-<!-- Body-Ends-Here -->
+	// The path to the "application" directory
+	if (is_dir($application_folder))
+	{
+		if (($_temp = realpath($application_folder)) !== FALSE)
+		{
+			$application_folder = $_temp;
+		}
+		else
+		{
+			$application_folder = strtr(
+				rtrim($application_folder, '/\\'),
+				'/\\',
+				DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+			);
+		}
+	}
+	elseif (is_dir(BASEPATH.$application_folder.DIRECTORY_SEPARATOR))
+	{
+		$application_folder = BASEPATH.strtr(
+			trim($application_folder, '/\\'),
+			'/\\',
+			DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+		);
+	}
+	else
+	{
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		echo 'Your application folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
+		exit(3); // EXIT_CONFIG
+	}
 
-</html>
+	define('APPPATH', $application_folder.DIRECTORY_SEPARATOR);
+
+	// The path to the "views" directory
+	if ( ! isset($view_folder[0]) && is_dir(APPPATH.'views'.DIRECTORY_SEPARATOR))
+	{
+		$view_folder = APPPATH.'views';
+	}
+	elseif (is_dir($view_folder))
+	{
+		if (($_temp = realpath($view_folder)) !== FALSE)
+		{
+			$view_folder = $_temp;
+		}
+		else
+		{
+			$view_folder = strtr(
+				rtrim($view_folder, '/\\'),
+				'/\\',
+				DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+			);
+		}
+	}
+	elseif (is_dir(APPPATH.$view_folder.DIRECTORY_SEPARATOR))
+	{
+		$view_folder = APPPATH.strtr(
+			trim($view_folder, '/\\'),
+			'/\\',
+			DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR
+		);
+	}
+	else
+	{
+		header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
+		echo 'Your view folder path does not appear to be set correctly. Please open the following file and correct this: '.SELF;
+		exit(3); // EXIT_CONFIG
+	}
+
+	define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
+
+/*
+ * --------------------------------------------------------------------
+ * LOAD THE BOOTSTRAP FILE
+ * --------------------------------------------------------------------
+ *
+ * And away we go...
+ */
+require_once BASEPATH.'core/CodeIgniter.php';

@@ -78,12 +78,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		                <li><a href="#foreword" class="scroll">Mengapa</a></li>
 
 		                <!-- Dropdown -->
+		                <!-- Dropdown -->
 		                <li role="presentation" class="dropdown carat1">
 			                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Selengkapnya<span class="caret"></span> </a>
-				                <ul class="dropdown-menu dropdown1">					 <li><a href="#programs" class="scroll">Fasilitas</a></li>
+				                <ul class="dropdown-menu dropdown1">					 
+				                	<li><a href="#programs" class="scroll">Fasilitas</a></li>
 					                <li><a href="#admissions" class="scroll">Seleksi</a></li>
 					                <li><a href="#services" class="scroll">Profil Lulusan</a></li>
-					                <li><a href="#faculty" class="scroll">Kata</a></li>
+					                <li><a href="#faculty" class="scroll">Kata Mereka</a></li>
 					                
 				                </ul>
 		                </li>
@@ -91,6 +93,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		                <!-- //Dropdown -->
 
 		                <li><a href="#contact" class="scroll">Hubungi</a></li>
+		                <li><a href="<?php echo site_url('report') ?>">Report</a></li>
+		                <li><a href="<?php echo site_url('chart') ?>">Pengunjung</a></li>
 		               
 				
 	                </ul>
@@ -316,7 +320,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         	<div class="contact slideanim" id="contact">
         		<h3>Hubungi</h3>
         		
-        			<form action="add.php" method="post"  class="contact_form">
+        			<form action="<?php echo base_url(). 'admin/tambah_aksi'; ?>" method="post"  class="contact_form">
 
         			 <div>
                           <label for="name">Nama</label>
@@ -373,7 +377,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="col-md-2 col-sm-2 f3" id="qlinks">
 	    		    <h3>Links</h3>
 	    			<ul class="footer_list">
-	    				<li><a href=indexlogin.php class="click">Masuk</a></li>
+	    				<li><a href="login" class="click">Masuk</a></li>
 	    				<li><a href="#about" class="scroll">Profil</a></li>
 	    				<li><a href="#foreword" class="scroll">Mengapa</a></li>
 	    				<li><a href="#contact" class="scroll">Hubungi</a></li>
